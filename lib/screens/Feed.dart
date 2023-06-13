@@ -1,3 +1,10 @@
+// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, prefer_const_constructors, duplicate_import, unnecessary_null_comparison, file_names, unused_import, prefer_typing_uninitialized_variables, deprecated_member_use, duplicate_ignore
+// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, prefer_const_constructors, duplicate_import, unnecessary_null_comparison, file_names, unused_import, prefer_typing_uninitialized_variables, deprecated_member_use
+
+// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, prefer_const_constructors, duplicate_import, unnecessary_null_comparison, file_names, unused_import, prefer_typing_uninitialized_variables, deprecated_member_use, duplicate_ignore
+// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, prefer_const_constructors, duplicate_import, unnecessary_null_comparison, file_names, unused_import, prefer_typing_uninitialized_variables, deprecated_member_use
+
+// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, prefer_const_constructors, duplicate_import, unnecessary_null_comparison, file_names, unused_import, prefer_typing_uninitialized_variables, deprecated_member_use, duplicate_ignore
 // ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, prefer_const_constructors, duplicate_import, unnecessary_null_comparison, file_names, unused_import, prefer_typing_uninitialized_variables, deprecated_member_use
 
 import 'package:flutter/material.dart';
@@ -6,7 +13,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:krypto/model/CryptoItem.dart';
 import 'package:krypto/screens/Events.dart';
+import 'package:krypto/screens/Help.dart';
 import 'package:krypto/screens/News.dart';
+import 'package:krypto/screens/PrivacyPolicy.dart';
 import 'package:krypto/screens/Register.dart';
 import 'package:krypto/screens/CryptoDetailPage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,6 +29,8 @@ class CryptoFeedPage extends StatefulWidget {
 class _CryptoFeedPageState extends State<CryptoFeedPage> {
   late Future<List<CryptoItem>> _cryptoItemsFuture;
   List<CryptoItem> filteredCryptoItems = [];
+  bool _isPrivacyPolicyExpanded = false;
+  bool _isAboutExpanded = false;
 
   @override
   void initState() {
@@ -88,12 +99,13 @@ class _CryptoFeedPageState extends State<CryptoFeedPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.close,
-                          size: 35,
-                          color:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? Colors.black
-                                  : Colors.white),
+                      icon: Icon(
+                        Icons.close,
+                        size: 35,
+                        color: Theme.of(context).brightness == Brightness.light
+                            ? Colors.black
+                            : Colors.white,
+                      ),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -102,13 +114,19 @@ class _CryptoFeedPageState extends State<CryptoFeedPage> {
                 ),
               ),
               ListTile(
-                leading: SvgPicture.asset(
-                  'images/MoneyTransfer.svg',
-                  width: 35,
-                  height: 35,
-                  color: Theme.of(context).brightness == Brightness.light
-                      ? Colors.black
-                      : Colors.white,
+                leading: IconButton(
+                  icon: Icon(
+                    Icons.privacy_tip,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isPrivacyPolicyExpanded = !_isPrivacyPolicyExpanded;
+                    });
+                  },
+                  iconSize: 35,
                 ),
                 title: DefaultTextStyle(
                   style: TextStyle(
@@ -117,104 +135,42 @@ class _CryptoFeedPageState extends State<CryptoFeedPage> {
                         : Colors.white,
                     fontSize: 18,
                   ),
-                  child: Text(
-                    'Transfer',
+                  child: Text('Privacy & Policy'),
+                ),
+                trailing: _isPrivacyPolicyExpanded
+                    ? Icon(Icons.keyboard_arrow_down)
+                    : Icon(Icons.keyboard_arrow_right),
+                onTap: () {
+                  setState(() {
+                    _isPrivacyPolicyExpanded = !_isPrivacyPolicyExpanded;
+                  });
+                },
+              ),
+              if (_isPrivacyPolicyExpanded) ...[
+                ListTile(
+                  title: Text('Privacy Policy Content'),
+                ),
+                ListTile(
+                  title: InkWell(
+                    child: Text(
+                      'Learn More',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PrivacyPolicyApple()));
+                    },
                   ),
                 ),
-              ),
-              ListTile(
-                leading: Icon(Icons.notifications,
-                    size: 35,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white),
-                title: DefaultTextStyle(
-                  style: TextStyle(
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                    fontSize: 18,
-                  ),
-                  child: Text(
-                    'Notifications',
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.history,
-                    size: 35,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white),
-                title: DefaultTextStyle(
-                  style: TextStyle(
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                    fontSize: 18,
-                  ),
-                  child: Text(
-                    'Payments History',
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.settings,
-                    size: 35,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white),
-                title: DefaultTextStyle(
-                  style: TextStyle(
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                    fontSize: 18,
-                  ),
-                  child: Text(
-                    'Account Settings',
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.help,
-                    size: 35,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white),
-                title: DefaultTextStyle(
-                  style: TextStyle(
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                    fontSize: 18,
-                  ),
-                  child: Text(
-                    'Help & Support',
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.report,
-                    size: 35,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white),
-                title: DefaultTextStyle(
-                  style: TextStyle(
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                    fontSize: 18,
-                  ),
-                  child: Text(
-                    'Report a Problem',
-                  ),
-                ),
-              ),
+              ],
+              if (_isPrivacyPolicyExpanded) ListTile(),
               ListTile(
                 leading: IconButton(
-                  iconSize: 35,
                   icon: Icon(
                     Get.isDarkMode ? Icons.light_mode : Icons.dark_mode,
                     color: Theme.of(context).brightness == Brightness.light
@@ -223,8 +179,10 @@ class _CryptoFeedPageState extends State<CryptoFeedPage> {
                   ),
                   onPressed: () {
                     Get.changeThemeMode(
-                        Get.isDarkMode ? ThemeMode.light : ThemeMode.dark);
+                      Get.isDarkMode ? ThemeMode.light : ThemeMode.dark,
+                    );
                   },
+                  iconSize: 35,
                 ),
                 title: DefaultTextStyle(
                   style: TextStyle(
@@ -233,17 +191,25 @@ class _CryptoFeedPageState extends State<CryptoFeedPage> {
                         : Colors.white,
                     fontSize: 18,
                   ),
-                  child: Text(
-                    Get.isDarkMode ? 'Light' : 'Dark',
-                  ),
+                  child: Text(Get.isDarkMode ? 'Light' : 'Dark'),
                 ),
+                trailing: null,
               ),
               ListTile(
-                leading: Icon(Icons.info,
-                    size: 35,
+                leading: IconButton(
+                  icon: Icon(
+                    Icons.info,
                     color: Theme.of(context).brightness == Brightness.light
                         ? Colors.black
-                        : Colors.white),
+                        : Colors.white,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isAboutExpanded = !_isAboutExpanded;
+                    });
+                  },
+                  iconSize: 35,
+                ),
                 title: DefaultTextStyle(
                   style: TextStyle(
                     color: Theme.of(context).brightness == Brightness.light
@@ -251,29 +217,21 @@ class _CryptoFeedPageState extends State<CryptoFeedPage> {
                         : Colors.white,
                     fontSize: 18,
                   ),
-                  child: Text(
-                    'About',
-                  ),
+                  child: Text('About'),
                 ),
+                trailing: _isAboutExpanded
+                    ? Icon(Icons.keyboard_arrow_down)
+                    : Icon(Icons.keyboard_arrow_right),
+                onTap: () {
+                  setState(() {
+                    _isAboutExpanded = !_isAboutExpanded;
+                  });
+                },
               ),
-              ListTile(
-                leading: Icon(Icons.login,
-                    size: 35,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white),
-                title: DefaultTextStyle(
-                  style: TextStyle(
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                    fontSize: 18,
-                  ),
-                  child: Text(
-                    'Log Out',
-                  ),
+              if (_isAboutExpanded)
+                ListTile(
+                  title: Text('Version 1.0.0'),
                 ),
-              ),
             ],
           ),
         ),
@@ -319,29 +277,17 @@ class _CryptoFeedPageState extends State<CryptoFeedPage> {
                                 'Price: \$${cryptoItem.currentPrice.toStringAsFixed(2)}',
                                 style: TextStyle(color: Colors.green),
                               ),
-                              Text(
-                                'Change 24h: ${cryptoItem.priceChange24h.toStringAsFixed(2)}',
-                              ),
-                              Text(
-                                'Change %: ${cryptoItem.priceChangePercentage24h.toStringAsFixed(2)}%',
-                                style: TextStyle(color: Colors.red),
-                              ),
-                              Text('Last Updated: ${cryptoItem.lastUpdated}'),
                             ],
                           ),
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    CryptoDetailPage(cryptoItem: cryptoItem),
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => CryptoDetailPage(
+                                cryptoItem: cryptoItem,
                               ),
-                            );
+                            ));
                           },
                         ),
-                        Divider(
-                          thickness: 5,
-                        ),
+                        Divider(),
                       ],
                     );
                   },
@@ -357,53 +303,101 @@ class _CryptoFeedPageState extends State<CryptoFeedPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            IconButton(
-              icon: SvgPicture.asset(
-                'images/home.svg',
-                width: 40,
-                height: 40,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CryptoFeedPage()),
-                );
-              },
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: SvgPicture.asset(
+                    'images/home.svg',
+                    width: 40,
+                    height: 40,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CryptoFeedPage()),
+                    );
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    'Home',
+                    style: TextStyle(
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            IconButton(
-              icon: SvgPicture.asset(
-                'images/news.svg',
-                width: 40,
-                height: 40,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CryptoNewsPage()),
-                );
-              },
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: SvgPicture.asset(
+                    'images/news.svg',
+                    width: 40,
+                    height: 40,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CryptoNewsPage()),
+                    );
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    'News',
+                    style: TextStyle(
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            IconButton(
-              icon: SvgPicture.asset(
-                'images/calendar.svg',
-                width: 40,
-                height: 40,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? Colors.black
-                    : Colors.white,
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => EventPage()),
-                );
-              },
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: SvgPicture.asset(
+                    'images/calendar.svg',
+                    width: 40,
+                    height: 40,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? Colors.black
+                        : Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => EventPage()),
+                    );
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    'Events',
+                    style: TextStyle(
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? Colors.black
+                          : Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
