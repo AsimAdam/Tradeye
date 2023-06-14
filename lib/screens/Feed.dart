@@ -148,7 +148,7 @@ class _CryptoFeedPageState extends State<CryptoFeedPage> {
               ),
               if (_isPrivacyPolicyExpanded) ...[
                 ListTile(
-                  title: Text('Privacy Policy Content'),
+                  title: Text('Privacy Policy'),
                 ),
                 ListTile(
                   title: InkWell(
