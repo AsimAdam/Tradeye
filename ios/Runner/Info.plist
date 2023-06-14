@@ -47,5 +47,15 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>CFBundleIconFiles</key>
+  	<array>
+    <string>MarketPro_logo_20</string>
+    <string>MarketPro_logo_29</string>
+	<string>MarketPro_logo_40</string>
+    <string>MarketPro_logo_60</string>
+	<string>MarketPro_logo_76</string>
+    <string>MarketPro_logo_80</string>
+	<string>MarketPro_logo_1024</string>
+  	</array>
 </dict>
 </plist>

@@ -54,14 +54,19 @@ android {
         versionName "1.0"
     
     }
+    signingConfigs {
+       release {
+           keyAlias 'upload'
+           keyPassword 'unitedfuture'
+           storeFile file('/home/genox/upload-keystore.jks')
+           storePassword 'unitedfuture'
+       }
+    }
     buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
-            shrinkResources false
-
-        }
+       release {
+           signingConfig signingConfigs.release
+           shrinkResources false
+       }
     }
 }
 
