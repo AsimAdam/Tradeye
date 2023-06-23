@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, file_names
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:krypto/model/EventClass.dart';
 
 class EventDetailsPage extends StatelessWidget {
@@ -9,9 +10,17 @@ class EventDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formattedDate =
+        DateFormat.yMMMMd().format(DateTime.parse(event.date));
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Event Details'),
+        backgroundColor: Color.fromARGB(255, 3, 49, 109),
+        title: Text(
+          'Full Story',
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(15),
@@ -28,8 +37,9 @@ class EventDetailsPage extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Text(
-                event.date,
-                style: TextStyle(color: Colors.amber),
+                formattedDate,
+                style:
+                    TextStyle(color: const Color.fromARGB(255, 214, 59, 111)),
               ),
               SizedBox(height: 10),
               Text(

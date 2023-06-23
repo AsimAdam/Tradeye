@@ -1,14 +1,12 @@
-// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_constructors, file_names, unused_label, dead_code, deprecated_member_use
+// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_constructors, file_names, unused_label, dead_code, deprecated_member_use, unused_import
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
-import 'package:krypto/screens/Feed.dart';
-import 'package:krypto/screens/News.dart';
 import 'EventDetailPage.dart';
 import 'dart:convert';
 import 'package:share/share.dart';
 import 'package:krypto/model/EventClass.dart';
+import 'package:intl/intl.dart';
 
 class EventPage extends StatefulWidget {
   @override
@@ -49,7 +47,7 @@ class _EventPageState extends State<EventPage> {
         events = fetchedEvents;
       });
     } else {
-      throw Exception('Failed to fetch Events');
+      throw Exception('Failed to fetch Trends');
     }
   }
 
@@ -57,19 +55,22 @@ class _EventPageState extends State<EventPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 3, 49, 109),
         title: Text(
-          'Latest Events',
-          style: TextStyle(fontSize: 18),
+          'Latest Trends',
+          style: TextStyle(fontSize: 18, color: Colors.white),
         ),
       ),
       body: ListView.builder(
         itemCount: events.length,
         itemBuilder: (context, index) {
           final event = events[index];
+          final formattedDate =
+              DateFormat.yMMMMd().format(DateTime.parse(event.date));
           return EventItem(
             image: event.image,
             title: event.title,
-            date: event.date,
+            date: formattedDate,
             description: event.description,
             onPressed: () {
               Navigator.push(
@@ -80,109 +81,6 @@ class _EventPageState extends State<EventPage> {
             },
           );
         },
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: SvgPicture.asset(
-                    'images/home.svg',
-                    width: 40,
-                    height: 40,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CryptoFeedPage()),
-                    );
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    'Home',
-                    style: TextStyle(
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: SvgPicture.asset(
-                    'images/news.svg',
-                    width: 40,
-                    height: 40,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CryptoNewsPage()),
-                    );
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    'News',
-                    style: TextStyle(
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: SvgPicture.asset(
-                    'images/calendar.svg',
-                    width: 40,
-                    height: 40,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => EventPage()),
-                    );
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    'Events',
-                    style: TextStyle(
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -240,31 +138,30 @@ class EventItem extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(right: 16.0),
-                child: IconButton(
-                  icon: Icon(Icons.share),
-                  onPressed: () {
-                    _shareEvent(context);
-                  },
-                ),
+              Row(
+                children: [
+                  ElevatedButton.icon(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        Color.fromARGB(255, 3, 49, 109),
+                      ),
+                    ),
+                    onPressed: onPressed,
+                    icon: Icon(Icons.fullscreen),
+                    label: Text(
+                      'Full Story',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.share),
+                    onPressed: () {
+                      _shareEvent(context);
+                    },
+                  ),
+                ],
               ),
             ],
-          ),
-          SizedBox(height: 16.0),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.grey.shade200),
-              ),
-              onPressed: onPressed,
-              child: Text(
-                'Details',
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
           ),
           SizedBox(height: 16.0),
         ],

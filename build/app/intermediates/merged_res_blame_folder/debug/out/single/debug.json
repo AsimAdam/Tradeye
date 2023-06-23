@@ -1,0 +1,50 @@
+[
+    {
+        "merged": "com.example.krypto.app-merged_res-22:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "com.example.krypto.app-main-16:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.example.krypto.app-merged_res-22:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "com.example.krypto.app-main-16:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.example.krypto.app-merged_res-22:/mipmap-hdpi_logo_72.png.flat",
+        "source": "com.example.krypto.app-main-16:/mipmap-hdpi/logo_72.png"
+    },
+    {
+        "merged": "com.example.krypto.app-merged_res-22:/mipmap-hdpi_logo_48.png.flat",
+        "source": "com.example.krypto.app-main-16:/mipmap-hdpi/logo_48.png"
+    },
+    {
+        "merged": "com.example.krypto.app-merged_res-22:/drawable-v21_launch_background.xml.flat",
+        "source": "com.example.krypto.app-main-16:/drawable-v21/launch_background.xml"
+    },
+    {
+        "merged": "com.example.krypto.app-merged_res-22:/mipmap-hdpi_logo_192.png.flat",
+        "source": "com.example.krypto.app-main-16:/mipmap-hdpi/logo_192.png"
+    },
+    {
+        "merged": "com.example.krypto.app-merged_res-22:/mipmap-hdpi_logo_96.png.flat",
+        "source": "com.example.krypto.app-main-16:/mipmap-hdpi/logo_96.png"
+    },
+    {
+        "merged": "com.example.krypto.app-merged_res-22:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "com.example.krypto.app-main-16:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.example.krypto.app-merged_res-22:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "com.example.krypto.app-main-16:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.example.krypto.app-merged_res-22:/drawable_launch_background.xml.flat",
+        "source": "com.example.krypto.app-main-16:/drawable/launch_background.xml"
+    },
+    {
+        "merged": "com.example.krypto.app-merged_res-22:/mipmap-hdpi_logo_144.png.flat",
+        "source": "com.example.krypto.app-main-16:/mipmap-hdpi/logo_144.png"
+    },
+    {
+        "merged": "com.example.krypto.app-merged_res-22:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "com.example.krypto.app-main-16:/mipmap-xxhdpi/ic_launcher.png"
+    }
+]

@@ -1,0 +1,4 @@
+#Fri Jun 23 18:10:43 GST 2023
+base.0=C\:\\Users\\devel\\Tradeye\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

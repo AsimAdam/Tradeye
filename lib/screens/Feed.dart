@@ -1,25 +1,14 @@
-// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, prefer_const_constructors, duplicate_import, unnecessary_null_comparison, file_names, unused_import, prefer_typing_uninitialized_variables, deprecated_member_use, duplicate_ignore
-// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, prefer_const_constructors, duplicate_import, unnecessary_null_comparison, file_names, unused_import, prefer_typing_uninitialized_variables, deprecated_member_use
-
-// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, prefer_const_constructors, duplicate_import, unnecessary_null_comparison, file_names, unused_import, prefer_typing_uninitialized_variables, deprecated_member_use, duplicate_ignore
-// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, prefer_const_constructors, duplicate_import, unnecessary_null_comparison, file_names, unused_import, prefer_typing_uninitialized_variables, deprecated_member_use
-
-// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, prefer_const_constructors, duplicate_import, unnecessary_null_comparison, file_names, unused_import, prefer_typing_uninitialized_variables, deprecated_member_use, duplicate_ignore
-// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_literals_to_create_immutables, prefer_const_constructors, duplicate_import, unnecessary_null_comparison, file_names, unused_import, prefer_typing_uninitialized_variables, deprecated_member_use
+// ignore_for_file: use_key_in_widget_constructors, library_private_types_in_public_api, prefer_const_declarations, prefer_const_constructors, file_names, avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:krypto/model/CryptoItem.dart';
-import 'package:krypto/screens/Events.dart';
-import 'package:krypto/screens/Help.dart';
-import 'package:krypto/screens/News.dart';
-import 'package:krypto/screens/PrivacyPolicy.dart';
-import 'package:krypto/screens/Register.dart';
+import 'package:krypto/screens/About.dart';
 import 'package:krypto/screens/CryptoDetailPage.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:krypto/screens/Events.dart';
+import 'package:krypto/screens/NewsDetailPage.dart';
+import 'package:krypto/screens/PrivacyPageGoogle.dart';
 
 class CryptoFeedPage extends StatefulWidget {
   @override
@@ -29,13 +18,15 @@ class CryptoFeedPage extends StatefulWidget {
 class _CryptoFeedPageState extends State<CryptoFeedPage> {
   late Future<List<CryptoItem>> _cryptoItemsFuture;
   List<CryptoItem> filteredCryptoItems = [];
-  bool _isPrivacyPolicyExpanded = false;
-  bool _isAboutExpanded = false;
+
+  late Future<List<Article>> _newsFuture;
+  List<Article> newsList = [];
 
   @override
   void initState() {
     super.initState();
     _cryptoItemsFuture = fetchCryptocurrencies();
+    _newsFuture = fetchNews();
   }
 
   Future<List<CryptoItem>> fetchCryptocurrencies() async {
@@ -53,9 +44,27 @@ class _CryptoFeedPageState extends State<CryptoFeedPage> {
     }
   }
 
+  Future<List<Article>> fetchNews() async {
+    final String apiKey = '7d4d86e08c3f4b5b90cf68713aa93e55';
+    final Uri url = Uri.parse(
+        'https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=$apiKey');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      final articles = data['articles'] as List<dynamic>;
+      print(data);
+      final newsItems = articles.map((item) => Article.fromJson(item)).toList();
+      return newsItems;
+    } else {
+      throw Exception('Failed to fetch news');
+    }
+  }
+
   Future<void> _refreshData() async {
     setState(() {
       _cryptoItemsFuture = fetchCryptocurrencies();
+      _newsFuture = fetchNews();
     });
   }
 
@@ -63,345 +72,316 @@ class _CryptoFeedPageState extends State<CryptoFeedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TextField(
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: 'Search crypto updates',
-            prefixIcon: IconButton(
-              icon: Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
-              onPressed: () {},
-            ),
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.refresh),
-            onPressed: () {
-              _refreshData();
-            },
-          ),
-        ],
-      ),
-      drawer: Drawer(
-        child: Container(
-          color: Colors.transparent,
-          width: MediaQuery.of(context).size.width * 0.5,
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                height: 100,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        Icons.close,
-                        size: 35,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? Colors.black
-                            : Colors.white,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              ListTile(
-                leading: IconButton(
-                  icon: Icon(
-                    Icons.privacy_tip,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _isPrivacyPolicyExpanded = !_isPrivacyPolicyExpanded;
-                    });
-                  },
-                  iconSize: 35,
-                ),
-                title: DefaultTextStyle(
-                  style: TextStyle(
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                    fontSize: 18,
-                  ),
-                  child: Text('Privacy & Policy'),
-                ),
-                trailing: _isPrivacyPolicyExpanded
-                    ? Icon(Icons.keyboard_arrow_down)
-                    : Icon(Icons.keyboard_arrow_right),
-                onTap: () {
-                  setState(() {
-                    _isPrivacyPolicyExpanded = !_isPrivacyPolicyExpanded;
-                  });
-                },
-              ),
-              if (_isPrivacyPolicyExpanded) ...[
-                ListTile(
-                  title: Text('Privacy Policy'),
-                ),
-                ListTile(
-                  title: InkWell(
-                    child: Text(
-                      'Learn More',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PrivacyPolicyApple()));
-                    },
-                  ),
-                ),
-              ],
-              if (_isPrivacyPolicyExpanded) ListTile(),
-              ListTile(
-                leading: IconButton(
-                  icon: Icon(
-                    Get.isDarkMode ? Icons.light_mode : Icons.dark_mode,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                  ),
-                  onPressed: () {
-                    Get.changeThemeMode(
-                      Get.isDarkMode ? ThemeMode.light : ThemeMode.dark,
-                    );
-                  },
-                  iconSize: 35,
-                ),
-                title: DefaultTextStyle(
-                  style: TextStyle(
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                    fontSize: 18,
-                  ),
-                  child: Text(Get.isDarkMode ? 'Light' : 'Dark'),
-                ),
-                trailing: null,
-              ),
-              ListTile(
-                leading: IconButton(
-                  icon: Icon(
-                    Icons.info,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _isAboutExpanded = !_isAboutExpanded;
-                    });
-                  },
-                  iconSize: 35,
-                ),
-                title: DefaultTextStyle(
-                  style: TextStyle(
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                    fontSize: 18,
-                  ),
-                  child: Text('About'),
-                ),
-                trailing: _isAboutExpanded
-                    ? Icon(Icons.keyboard_arrow_down)
-                    : Icon(Icons.keyboard_arrow_right),
-                onTap: () {
-                  setState(() {
-                    _isAboutExpanded = !_isAboutExpanded;
-                  });
-                },
-              ),
-              if (_isAboutExpanded)
-                ListTile(
-                  title: Text('Version 1.0.0'),
-                ),
-            ],
-          ),
-        ),
-      ),
-      body: Container(
-        padding: EdgeInsets.all(16),
-        child: FutureBuilder<List<CryptoItem>>(
-          future: _cryptoItemsFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (snapshot.hasError) {
-              return Center(
-                child:
-                    Text('Error fetching cryptocurrencies: ${snapshot.error}'),
-              );
-            } else if (snapshot.hasData) {
-              final cryptoItems = snapshot.data!;
-              filteredCryptoItems = cryptoItems;
-              return RefreshIndicator(
-                onRefresh: _refreshData,
-                child: ListView.builder(
-                  itemCount: filteredCryptoItems.length,
-                  itemBuilder: (context, index) {
-                    final cryptoItem = filteredCryptoItems[index];
-                    return Column(
-                      children: [
-                        ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage: NetworkImage(cryptoItem.imageUrl),
-                          ),
-                          title: Text(cryptoItem.name),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Symbol: ${cryptoItem.symbol}',
-                                style: TextStyle(color: Colors.amber),
-                              ),
-                              Text(
-                                'Price: \$${cryptoItem.currentPrice.toStringAsFixed(2)}',
-                                style: TextStyle(color: Colors.green),
-                              ),
-                            ],
-                          ),
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => CryptoDetailPage(
-                                cryptoItem: cryptoItem,
-                              ),
-                            ));
-                          },
-                        ),
-                        Divider(),
-                      ],
-                    );
-                  },
-                ),
-              );
-            } else {
-              return Container();
-            }
-          },
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        automaticallyImplyLeading: false,
+        backgroundColor: Color.fromARGB(255, 3, 49, 109),
+        title: Row(
           children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
+            SizedBox(width: 16),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CryptoFeedPage()));
+              },
+              child: Image.asset(
+                'assets/tradeye.png',
+                width: 40,
+              ),
+            ),
+          ],
+        ),
+      ),
+      endDrawer: Drawer(
+        child: Container(
+          color: Color.fromARGB(255, 3, 49, 109),
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IconButton(
-                  icon: SvgPicture.asset(
-                    'images/home.svg',
-                    width: 40,
-                    height: 40,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                ListTile(
+                  leading: Icon(
+                    Icons.home,
+                    size: 30,
+                    color: Colors.white,
                   ),
-                  onPressed: () {
+                  title: Text(
+                    'Home',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => CryptoFeedPage()),
                     );
                   },
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    'Home',
-                    style: TextStyle(
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
-                    ),
+                ListTile(
+                  leading: Icon(
+                    Icons.trending_up,
+                    size: 30,
+                    color: Colors.white,
                   ),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: SvgPicture.asset(
-                    'images/news.svg',
-                    width: 40,
-                    height: 40,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
+                  title: Text(
+                    'Trending',
+                    style: TextStyle(color: Colors.white),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CryptoNewsPage()),
-                    );
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    'News',
-                    style: TextStyle(
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: SvgPicture.asset(
-                    'images/calendar.svg',
-                    width: 40,
-                    height: 40,
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? Colors.black
-                        : Colors.white,
-                  ),
-                  onPressed: () {
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => EventPage()),
                     );
                   },
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    'Events',
-                    style: TextStyle(
-                      color: Theme.of(context).brightness == Brightness.light
-                          ? Colors.black
-                          : Colors.white,
-                    ),
+                ListTile(
+                  leading: Icon(
+                    Icons.privacy_tip,
+                    size: 30,
+                    color: Colors.white,
                   ),
+                  title: Text(
+                    'Privacy & Policy',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PrivacyPolicyGoogle()),
+                    );
+                  },
+                ),
+                SizedBox(height: 16),
+                ListTile(
+                  leading: Icon(
+                    Icons.info,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    'About',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AboutPage()),
+                    );
+                  },
+                ),
+                Spacer(),
+                Text(
+                  '@ all right reserved Tradeye 2023',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ],
+            ),
+          ),
+        ),
+      ),
+      body: Container(
+        color: Color.fromARGB(255, 218, 224, 226),
+        padding: EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Expanded(
+              child: FutureBuilder<List<Article>>(
+                future: _newsFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        'Error fetching news: ${snapshot.error}',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    );
+                  } else if (snapshot.hasData) {
+                    final newsItems = snapshot.data!;
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: newsItems.length,
+                      itemBuilder: (context, index) {
+                        final newsItem = newsItems[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => NewsDetailPage(
+                                  image: newsItem.imageUrl,
+                                  publisher: newsItem.publisher,
+                                  datePublished: newsItem.datePublished,
+                                  description: newsItem.description,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: 200,
+                            margin: EdgeInsets.only(right: 16),
+                            child: Card(
+                              color: Colors.white,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Image.network(
+                                      newsItem.imageUrl,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Text(
+                                      newsItem.title,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+            ),
+            SizedBox(height: 16),
+            Expanded(
+              flex: 2,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Color.fromARGB(255, 2, 34, 53),
+                ),
+                child: FutureBuilder<List<CryptoItem>>(
+                  future: _cryptoItemsFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text(
+                          'Error fetching cryptocurrencies: ${snapshot.error}',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      );
+                    } else if (snapshot.hasData) {
+                      final cryptoItems = snapshot.data!;
+                      filteredCryptoItems = cryptoItems;
+                      return RefreshIndicator(
+                        onRefresh: _refreshData,
+                        child: ListView.builder(
+                          itemCount: filteredCryptoItems.length,
+                          itemBuilder: (context, index) {
+                            final cryptoItem = filteredCryptoItems[index];
+                            return Container(
+                              margin: EdgeInsets.only(bottom: 16),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Color.fromARGB(255, 3, 49, 109),
+                              ),
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  backgroundImage:
+                                      NetworkImage(cryptoItem.imageUrl),
+                                ),
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      cryptoItem.name,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            cryptoItem.symbol,
+                                            style: TextStyle(
+                                              color: Colors.yellow,
+                                            ),
+                                          ),
+                                        ),
+                                        Text(
+                                          '\$${cryptoItem.currentPrice.toStringAsFixed(2)}',
+                                          style: TextStyle(
+                                            color: Colors.green,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CryptoDetailPage(
+                                        cryptoItem: cryptoItem,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    } else {
+                      return Container();
+                    }
+                  },
+                ),
+              ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class Article {
+  final String title;
+  final String imageUrl;
+  final String publisher;
+  final String datePublished;
+  final String description;
+
+  Article({
+    required this.title,
+    required this.imageUrl,
+    required this.publisher,
+    required this.datePublished,
+    required this.description,
+  });
+
+  factory Article.fromJson(Map<String, dynamic> json) {
+    return Article(
+      title: json['title'] ?? '',
+      imageUrl: json['urlToImage'] ?? '',
+      publisher:
+          json['source']['name'] ?? '', // Access "name" attribute in "source"
+      datePublished: json['publishedAt'] ?? '',
+      description: json['description'] ?? '',
     );
   }
 }

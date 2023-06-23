@@ -1,6 +1,8 @@
-// ignore_for_file: file_names, use_key_in_widget_constructors, prefer_const_constructors
+// ignore_for_file: file_names, use_key_in_widget_constructors, prefer_const_constructors, unused_import
 
 import 'package:flutter/material.dart';
+import 'package:krypto/screens/Feed.dart';
+import 'package:intl/intl.dart';
 
 class NewsDetailPage extends StatelessWidget {
   final String image;
@@ -19,7 +21,12 @@ class NewsDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('News Details'),
+        backgroundColor: Color.fromARGB(255, 3, 49, 109),
+        title: Text(
+          'News Details',
+          style: TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
       ),
       body: ListView(
         padding: EdgeInsets.all(16),
@@ -28,13 +35,16 @@ class NewsDetailPage extends StatelessWidget {
           SizedBox(height: 16),
           Text(
             publisher,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 2, 2, 2)),
+          ),
+          Text(
+            DateFormat.yMMMd().format(DateTime.parse(datePublished)),
+            style: TextStyle(fontSize: 14, color: Color.fromARGB(255, 2, 2, 2)),
           ),
           SizedBox(height: 8),
-          Text(
-            datePublished,
-            style: TextStyle(fontSize: 14, color: Colors.grey),
-          ),
           SizedBox(height: 16),
           Text(
             description,
