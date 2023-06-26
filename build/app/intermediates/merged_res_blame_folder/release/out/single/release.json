@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "com.example.tradeye.app-merged_res-34:/drawable_launch_background.xml.flat",
+        "source": "com.example.tradeye.app-main-27:/drawable/launch_background.xml"
+    },
+    {
+        "merged": "com.example.tradeye.app-merged_res-34:/drawable-v21_launch_background.xml.flat",
+        "source": "com.example.tradeye.app-main-27:/drawable-v21/launch_background.xml"
+    },
+    {
+        "merged": "com.example.tradeye.app-merged_res-34:/mipmap-xxxhdpi_tradeye_192.png.flat",
+        "source": "com.example.tradeye.app-main-27:/mipmap-xxxhdpi/tradeye_192.png"
+    },
+    {
+        "merged": "com.example.tradeye.app-merged_res-34:/mipmap-hdpi_tradeye_72.png.flat",
+        "source": "com.example.tradeye.app-main-27:/mipmap-hdpi/tradeye_72.png"
+    },
+    {
+        "merged": "com.example.tradeye.app-merged_res-34:/mipmap-xhdpi_tradeye_96.png.flat",
+        "source": "com.example.tradeye.app-main-27:/mipmap-xhdpi/tradeye_96.png"
+    },
+    {
+        "merged": "com.example.tradeye.app-merged_res-34:/mipmap-xxhdpi_tradeye_144.png.flat",
+        "source": "com.example.tradeye.app-main-27:/mipmap-xxhdpi/tradeye_144.png"
+    },
+    {
+        "merged": "com.example.tradeye.app-merged_res-34:/mipmap-mdpi_tradeye_48.png.flat",
+        "source": "com.example.tradeye.app-main-27:/mipmap-mdpi/tradeye_48.png"
+    }
+]

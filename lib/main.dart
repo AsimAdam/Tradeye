@@ -3,13 +3,13 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:krypto/screens/Events.dart';
-import 'package:krypto/screens/Feed.dart';
-import 'package:krypto/screens/News.dart';
+import 'package:krypto/pages/Trending.dart';
+import 'package:krypto/pages/Updates.dart';
+import 'package:krypto/pages/NewsSlider.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:krypto/screens/SplashScreen.dart';
+import 'package:krypto/pages/Splash.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,8 +23,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Krypto',
-      home: CryptoFeedPage(),
+      title: 'Tradeye',
+      home: SplashScreen(),
     );
   }
 }
