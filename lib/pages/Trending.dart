@@ -57,7 +57,7 @@ class _EventPageState extends State<EventPage> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 3, 49, 109),
         title: Text(
-          'Latest Trends',
+          'Latest Trending Topics',
           style: TextStyle(fontSize: 18, color: Colors.white),
         ),
       ),

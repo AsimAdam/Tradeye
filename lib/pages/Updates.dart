@@ -9,6 +9,7 @@ import 'package:krypto/pages/CurrencyDetail.dart';
 import 'package:krypto/pages/Trending.dart';
 import 'package:krypto/pages/NewsDetail.dart';
 import 'package:krypto/pages/PrivacyGoogle.dart';
+import 'package:krypto/pages/Categories.dart';
 
 class CryptoFeedPage extends StatefulWidget {
   @override
@@ -117,6 +118,23 @@ class _CryptoFeedPageState extends State<CryptoFeedPage> {
                 ),
                 ListTile(
                   leading: Icon(
+                    Icons.category,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    'Categories',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CategoriesPage()));
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
                     Icons.trending_up,
                     size: 30,
                     color: Colors.white,
@@ -170,7 +188,7 @@ class _CryptoFeedPageState extends State<CryptoFeedPage> {
                 ),
                 Spacer(),
                 Text(
-                  '@ all right reserved Tradeye 2023',
+                  '© All rights reserved Tradeye 2023',
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),

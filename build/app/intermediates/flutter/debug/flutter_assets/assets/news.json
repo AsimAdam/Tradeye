@@ -1,0 +1,61 @@
+{
+    "articles": [
+      {
+        "title": "Bitcoin Jumps to More Than Two-Week High on Relief Over US Debt Ceiling",
+        "urlToImage": "images/bitcoinsRaise.png",
+        "author": "John Doe",
+        "publishedAt": "2023-05-26"
+      },
+      {
+        "title": "Week in DeFi: Multichain Woes, the Future of Synthetix and Penumbra’s New DEX",
+        "urlToImage": "images/DeFi.png",
+        "author": "Jane Smith",
+        "publishedAt": "2023-05-25"
+      },
+      {
+        "title": "Americans May Not Love Crypto, But These Top Brands Are Into It",
+        "urlToImage": "images/brands.png",
+        "author": "Jane Smith",
+        "publishedAt": "2023-05-25"
+      },
+      {
+        "title": "Singapore's Temasek to Exercise Caution in Crypto Space After FTX Nightmare",
+        "urlToImage": "images/singapore.png",
+        "author": "Jane Smith",
+        "publishedAt": "2023-05-25"
+      },
+      {
+        "title": "Bitcoin back above US$28,000 as cryptos rebound on positive debt ceiling talks",
+        "urlToImage": "images/cryptos.png",
+        "author": "Jane Smith",
+        "publishedAt": "2023-05-25"
+      },
+      {
+        "title": "The Sandbox CEO’s Twitter Hacked to Promote Crypto Scam",
+        "urlToImage": "images/hacked.png",
+        "author": "Jane Smith",
+        "publishedAt": "2023-05-25"
+      },
+      {
+        "title": "Bitcoin Critic Peter Schiff Uses Ordinals for Art Project",
+        "urlToImage": "images/artpro.png",
+        "author": "Jane Smith",
+        "publishedAt": "2023-05-25"
+      },
+      {
+        "title": "Indian Crypto Exchanges Are in Survival Mode, Trying to Extend Their Runways",
+        "urlToImage": "images/india.png",
+        "author": "Jane Smith",
+        "publishedAt": "2023-05-25"
+      },
+      {
+        "title": "First Mover Asia: Bitcoin Rises Past $28K on Debt Ceiling Deal",
+        "urlToImage": "images/china.png",
+        "author": "Jane Smith",
+        "publishedAt": "2023-05-25"
+      }
+      
+        
+    ]
+  }
+  

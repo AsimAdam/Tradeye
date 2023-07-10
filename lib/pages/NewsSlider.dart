@@ -33,7 +33,6 @@ class _CryptoNewsPageState extends State<CryptoNewsPage> {
   List<dynamic> news = [];
 
   final String apiKey = '7d4d86e08c3f4b5b90cf68713aa93e55';
-  final String baseUrl = 'https://techcrunch.com/wp-content/uploads/';
 
   late Future<void> _cryptoNewsFuture;
 
